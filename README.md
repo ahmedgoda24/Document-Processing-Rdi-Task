@@ -71,7 +71,9 @@ Run Locally
     ```
 
 ### Docker Setup
-
+**Run the Docker image
+    ```
+    docker build -t my-django-app .
     ```
 
  **Run the Docker container:**
