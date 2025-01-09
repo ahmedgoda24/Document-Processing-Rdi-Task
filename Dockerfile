@@ -13,9 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the application files into the container
 COPY . /app/
 
-# Set environment variables for Django
-ENV PYTHONUNBUFFERED 1
-ENV DJANGO_SETTINGS_MODULE myproject.settings
 
 # Expose the port that Django will run on
 EXPOSE 8000
