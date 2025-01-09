@@ -39,6 +39,47 @@ class PDFSerializer(serializers.ModelSerializer):
 class FileUploadSerializer(serializers.Serializer):
     file = serializers.CharField()  # Base64 encoded file
     file_type = serializers.ChoiceField(choices=['image', 'pdf'])
+    
+    def validate_file(self, value: str) -> str:
+        """Validate a base64 encoded file and its type."""
+
+        MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
+
+        try:
+            # Split the base64 encoded file into its header and data.
+            header, file_data = value.split(";base64,", 1)
+
+            # Decode the base64 encoded file.
+            file_data = base64.b64decode(file_data)
+
+            # Validate the file size.
+            if len(file_data) > MAX_FILE_SIZE:
+                raise ValidationError("File size exceeds the maximum limit of 5MB.")
+
+            # Extract the file type from the header.
+            file_type = header.split(":")[1]
+
+            # Validate the file type.
+            if self.initial_data["file_type"] == "image":
+                if not file_type.startswith("image/"):
+                    raise ValidationError("Invalid image file.")
+
+                # Validate the image format.
+                allowed_image_types = {"jpeg", "jpg", "png", "gif", "webp"}
+                image_format = imghdr.what(None, h=file_data)
+                if image_format not in allowed_image_types:
+                    raise ValidationError("Unsupported image format.")
+            elif self.initial_data["file_type"] == "pdf":
+                if file_type != "application/pdf":
+                    raise ValidationError("Invalid PDF file.")
+            else:
+                raise ValidationError("Unsupported file type.")
+
+            return value
+
+        except (TypeError, ValueError, IndexError):
+            raise ValidationError("Invalid base64 file format.")
+
 
    
 
