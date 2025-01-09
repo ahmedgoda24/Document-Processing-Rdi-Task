@@ -86,15 +86,16 @@ Run Locally
   - Upload images or PDF files using base64 encoding
   - Request Body:
     ```json
-{
-  "file": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...",
-  "file_type": "image"
-}
-or
-{
-    "file": "data:application/pdf;base64,<base64-encoded-content>",
-    "file_type": "pdf"
-}
+    
+            {
+              "file": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...",
+              "file_type": "image"
+            }
+            or
+            {
+                "file": "data:application/pdf;base64,<base64-encoded-content>",
+                "file_type": "pdf"
+            }
     ```
   - Returns the created document object with its details
 
