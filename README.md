@@ -76,11 +76,6 @@ Run Locally
     docker build -t my-django-app .
     ```
 
- **Run the Docker container:**
-
-    ```sh
-    docker-compose up --build
-    ```
 ## API Endpoints
 
 ### Upload Files
